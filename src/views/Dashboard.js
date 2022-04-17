@@ -14,11 +14,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
-import { Button } from '@mui/material';
+import { Button, Container, Grid, Paper } from '@mui/material';
 import { logout } from '../service/auth';
 import { useNavigate } from 'react-router';
 import { getScan } from '../service/scan';
 import useAuth from '../hooks/useAuth';
+import ListTable from './ListTable';
+import CollapsibleTable from './CollapsibleListTable';
 
 const drawerWidth = 240;  
 
@@ -82,12 +84,6 @@ const Dashboard = () => {
         navigate('/login');
     }
 
-        React.useEffect(async () => {
-            const response = await getScan();
-            console.log(response);
-        }, [])
-        
-  
     return (
       <ThemeProvider theme={mdTheme}>
         <Box sx={{ display: 'flex' }}>
@@ -150,15 +146,26 @@ const Dashboard = () => {
             component="main"
             sx={{
               backgroundColor: (theme) =>
-                theme.palette.grey[900],
+                theme.palette.grey[100],
               flexGrow: 1,
               height: '100vh',
               overflow: 'auto',
             }}
           >
             <Toolbar />
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={3}>
+              {/* Recent Orders */}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <CollapsibleTable />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Container>
           </Box>
         </Box>
+        
         <Button variant="contained" onClick={handleLogout} >Logout</Button>
       </ThemeProvider>
     );

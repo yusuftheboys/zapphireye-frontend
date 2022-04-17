@@ -9,6 +9,8 @@ import Unauthorized from "./views/Unauthorized";
 import Reviewer from "./views/Reviewer";
 import Guest from "./views/Guest";
 import PublicRoutes from "./components/PublicRoutes";
+import ListTable from "./views/ListTable";
+import Description from "./views/Description";
 
 
 
@@ -21,9 +23,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
       </Route>
-                    {/* we want to protect these routes */}
+      {/* we want to protect these routes */}
       <Route element={<RequireAuth allowedRoles={["admin"]} />}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/desc" element={<Description />} />
       </Route>
 
         <Route element={<RequireAuth allowedRoles={["admin","reviewer"]} />}>
