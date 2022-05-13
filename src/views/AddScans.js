@@ -14,7 +14,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MainListItems, secondaryListItems } from "./ListItems";
-import { Button, Container, Grid, Paper } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Card,
+  CardContent,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { logout } from "../service/auth";
 import { useNavigate } from "react-router";
 import { getScan } from "../service/scan";
@@ -23,6 +35,7 @@ import ListTable from "./ListTable";
 import CollapsibleTable from "./CollapsibleListTable";
 import HighestRiskWeb from "./HighestRiskWeb";
 import TotalRisks from "./TotalRisks";
+import InputScanDetails from "./InputScanDetails";
 
 const drawerWidth = 240;
 
@@ -72,13 +85,28 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-const Dashboard = () => {
+const AddScans = () => {
   const { setAuth } = useAuth();
   const [open, setOpen] = React.useState(true);
+  const [name, setName] = React.useState("");
+  const [url, setUrl] = React.useState("");
+  const [operator, setOperator] = React.useState("");
+  const [period, setPeriod] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
   const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setPeriod(event.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.PreventDefault();
+    console.log(name);
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -115,7 +143,7 @@ const Dashboard = () => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              Add Web Scan
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -154,19 +182,11 @@ const Dashboard = () => {
           }}
         >
           <Toolbar />
-          <Container maxWidth="xl">
-            <Grid container spacing={2} marginTop={4}>
-              <Grid item xs={6}>
-                <HighestRiskWeb />
-              </Grid>
-              <Grid item xs={6}>
-                <TotalRisks />
-              </Grid>
-            </Grid>
+          <Container maxWidth="lg">
             <Grid container marginTop={4}>
               {/* Recent Orders */}
               <Grid item lg={12}>
-                <CollapsibleTable />
+                <InputScanDetails />
               </Grid>
             </Grid>
           </Container>
@@ -180,4 +200,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AddScans;
