@@ -16,13 +16,16 @@ import ThreatAgentForm from "./ThreatAgentForm";
 import VulnerabilityForm from "./VulnerabilityForm";
 import TechnicalImpactForm from "./TechnicalImpactForm";
 import BusinessImpactForm from "./BusinessImpactForm";
+import { useSelector } from "react-redux";
+import { postUrlList } from "../../service/url";
+import { store } from "../../redux/store";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        Zapphireye Security
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -56,6 +59,7 @@ const theme = createTheme();
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const selector = useSelector((state) => state);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -65,75 +69,93 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: "relative",
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-        >
-          <Typography component="h1" variant="h4" align="center">
-            Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                      Back
-                    </Button>
-                  )}
+  const handleSubmit = async () => {
+    const state = store.getState();
+    const response = await postUrlList(
+      state.url.name,
+      state.url.url,
+      state.url.operator,
+      state.url.period,
+      state.url.description,
+      state.threatAgent.skill,
+      state.threatAgent.motive,
+      state.threatAgent.opportunity,
+      state.threatAgent.population,
+      state.vulnerability.discovery,
+      state.vulnerability.exploit,
+      state.vulnerability.awareness,
+      state.vulnerability.intrusion,
+      state.technical.confidentality,
+      state.technical.integrity,
+      state.technical.availability,
+      state.technical.accountability,
+      state.business.financial,
+      state.business.reputation,
+      state.business.compliance,
+      state.business.privacy
+    );
 
+    console.log(response);
+  };
+
+  return (
+    <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <Paper
+        variant="outlined"
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+      >
+        <Typography component="h1" variant="h4" align="center">
+          Risk Assessment
+        </Typography>
+        <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <React.Fragment>
+          {activeStep === steps.length ? (
+            <React.Fragment>
+              <Typography variant="h5" gutterBottom>
+                Your Assessment has been Logged
+              </Typography>
+              <Typography variant="subtitle1">
+                Your Web would be Tested in a few minutes, Please Wait.
+              </Typography>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {getStepContent(activeStep)}
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                {activeStep !== 0 && (
+                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                    Back
+                  </Button>
+                )}
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ mt: 3, ml: 1 }}
+                  >
+                    Submit
+                  </Button>
+                ) : (
                   <Button
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
                   >
-                    {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                    Next
                   </Button>
-                </Box>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        </Paper>
-        <Copyright />
-      </Container>
-    </ThemeProvider>
+                )}
+              </Box>
+            </React.Fragment>
+          )}
+        </React.Fragment>
+      </Paper>
+      <Copyright />
+    </Container>
   );
 }
