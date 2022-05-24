@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MainListItems, secondaryListItems } from "./ListItems";
-import { Button, Container, Grid, Paper } from "@mui/material";
+import { Button, Container, Grid, Paper, Menu, MenuItem } from "@mui/material";
 import { logout } from "../service/auth";
 import { useNavigate } from "react-router";
 import { getScan } from "../service/scan";
@@ -23,6 +23,7 @@ import ListTable from "./ListTable";
 import CollapsibleTable from "./CollapsibleListTable";
 import HighestRiskWeb from "./HighestRiskWeb";
 import TotalRisks from "./TotalRisks";
+import { AccountCircle } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -75,10 +76,20 @@ const mdTheme = createTheme();
 const Dashboard = () => {
   const { setAuth } = useAuth();
   const [open, setOpen] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
   const navigate = useNavigate();
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -117,11 +128,35 @@ const Dashboard = () => {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -172,10 +207,6 @@ const Dashboard = () => {
           </Container>
         </Box>
       </Box>
-
-      <Button variant="contained" onClick={handleLogout}>
-        Logout
-      </Button>
     </ThemeProvider>
   );
 };

@@ -4,8 +4,13 @@ import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { actions } from "../../redux/slices/technical";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TechnicalImpactForm() {
+  const selector = useSelector((state) => state.technical);
+  const dispatch = useDispatch();
+  console.log(selector);
   return (
     <React.Fragment>
       <Typography variant="h5" align="center" marginBottom={2}>
@@ -24,12 +29,16 @@ export default function TechnicalImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="lossOfConfidentiality"
+              value={selector.confidentality}
+              onChange={(e) =>
+                dispatch(actions.setConfidentality(e.target.value))
+              }
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={2}>
                 Minimal non-sensitive data disclosed
               </MenuItem>
-              <MenuItem value={3}>
+              <MenuItem value={6}>
                 Extensive non-sensitive data disclosed
               </MenuItem>
               <MenuItem value={7}>Extensive Critical Data Disclosed</MenuItem>
@@ -46,6 +55,8 @@ export default function TechnicalImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="lossOfIntegrity"
+              value={selector.integrity}
+              onChange={(e) => dispatch(actions.setIntegrity(e.target.value))}
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={1}>Minimal Slightly Corrupt Data</MenuItem>
@@ -65,6 +76,10 @@ export default function TechnicalImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="lossOfAvailability"
+              value={selector.availability}
+              onChange={(e) =>
+                dispatch(actions.setAvailability(e.target.value))
+              }
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={1}>
@@ -89,6 +104,10 @@ export default function TechnicalImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="lossOfAccountability"
+              value={selector.accountability}
+              onChange={(e) =>
+                dispatch(actions.setAccountability(e.target.value))
+              }
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={1}>
@@ -100,14 +119,6 @@ export default function TechnicalImpactForm() {
               <MenuItem value={9}>Attack Completely Anonymous</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox color="secondary" name="saveAgree" value="yes" />
-            }
-            label="(Agree Statement)"
-          />
         </Grid>
       </Grid>
     </React.Fragment>

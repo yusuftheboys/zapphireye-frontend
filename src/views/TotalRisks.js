@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 const TotalRisks = () => {
-  var series = [67];
+  var series = [12];
   var chartOptionsLow = {
     chart: {
       height: 100,
@@ -23,6 +23,9 @@ const TotalRisks = () => {
           value: {
             fontSize: "20px",
             show: true,
+            formatter: function (val) {
+              return val;
+            },
           },
           name: {
             fontSize: "20px",
@@ -52,6 +55,9 @@ const TotalRisks = () => {
           value: {
             fontSize: "20px",
             show: true,
+            formatter: function (val) {
+              return val;
+            },
           },
           name: {
             fontSize: "20px",
@@ -81,6 +87,9 @@ const TotalRisks = () => {
           value: {
             fontSize: "20px",
             show: true,
+            formatter: function (val) {
+              return val;
+            },
           },
           name: {
             fontSize: "20px",

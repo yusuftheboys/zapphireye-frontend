@@ -4,8 +4,13 @@ import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { actions } from "../../redux/slices/business";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function BusinessImpactForm() {
+  const selector = useSelector((state) => state.business);
+  const dispatch = useDispatch();
+  console.log(selector);
   return (
     <React.Fragment>
       <Typography variant="h5" align="center" marginBottom={2}>
@@ -24,6 +29,8 @@ export default function BusinessImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="financialDamage"
+              value={selector.financial}
+              onChange={(e) => dispatch(actions.setFinancial(e.target.value))}
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={1}>
@@ -44,6 +51,8 @@ export default function BusinessImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="reputationDamage"
+              value={selector.reputation}
+              onChange={(e) => dispatch(actions.setReputation(e.target.value))}
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={1}>Minimal damage</MenuItem>
@@ -62,6 +71,8 @@ export default function BusinessImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="nonCompliance"
+              value={selector.compliance}
+              onChange={(e) => dispatch(actions.setCompliance(e.target.value))}
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={2}>Minor Violation</MenuItem>
@@ -79,6 +90,8 @@ export default function BusinessImpactForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="privacyViolation"
+              value={selector.privacy}
+              onChange={(e) => dispatch(actions.setPrivacy(e.target.value))}
             >
               <MenuItem value={0}>Not Applicable</MenuItem>
               <MenuItem value={3}>One Individual</MenuItem>
@@ -87,14 +100,6 @@ export default function BusinessImpactForm() {
               <MenuItem value={9}>Millions of People</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox color="secondary" name="saveAgree" value="yes" />
-            }
-            label="(Agree Statement)"
-          />
         </Grid>
       </Grid>
     </React.Fragment>

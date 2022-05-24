@@ -20,7 +20,7 @@ const mainList = [
   },
   {
     to: "/addScan",
-    title: "AddScan",
+    title: "Add Scan",
     icon: <LayersIcon />,
   },
 ];

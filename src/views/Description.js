@@ -69,6 +69,9 @@ const Description = () => {
             </CardActionArea>
           </Card>
         </Grid>
+        <Grid spacing={2}>
+          <ListInstanceTable instances={obj.instances} />
+        </Grid>
       </Grid>
     </Box>
   );

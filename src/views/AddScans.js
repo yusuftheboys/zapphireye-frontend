@@ -26,6 +26,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Menu,
 } from "@mui/material";
 import { logout } from "../service/auth";
 import { useNavigate } from "react-router";
@@ -36,6 +37,8 @@ import CollapsibleTable from "./CollapsibleListTable";
 import HighestRiskWeb from "./HighestRiskWeb";
 import TotalRisks from "./TotalRisks";
 import InputScanDetails from "./InputScanDetails";
+import WebListTable from "./WebListTable";
+import { AccountCircle } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -87,25 +90,20 @@ const mdTheme = createTheme();
 
 const AddScans = () => {
   const { setAuth } = useAuth();
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
-  const [name, setName] = React.useState("");
-  const [url, setUrl] = React.useState("");
-  const [operator, setOperator] = React.useState("");
-  const [period, setPeriod] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    setPeriod(event.target.value);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleSubmit = async (e) => {
-    e.PreventDefault();
-    console.log(name);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleLogout = async () => {
@@ -145,11 +143,35 @@ const AddScans = () => {
             >
               Add Web Scan
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -183,10 +205,13 @@ const AddScans = () => {
         >
           <Toolbar />
           <Container maxWidth="lg">
-            <Grid container marginTop={4}>
+            <Grid container margin={2}>
               {/* Recent Orders */}
               <Grid item lg={12}>
                 <InputScanDetails />
+              </Grid>
+              <Grid item lg={12} margin={2}>
+                <WebListTable />
               </Grid>
             </Grid>
           </Container>
