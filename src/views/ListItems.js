@@ -23,6 +23,11 @@ const mainList = [
     title: "Add Scan",
     icon: <LayersIcon />,
   },
+  {
+    to: "/addGroup",
+    title: "Add Group",
+    icon: <PeopleIcon />,
+  },
 ];
 
 const handleClick = () => {};

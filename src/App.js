@@ -13,6 +13,7 @@ import ListTable from "./views/ListTable";
 import Description from "./views/Description";
 import AddScans from "./views/AddScans";
 import RiskForm from "./views/RiskForm/index";
+import AddGroup from "./views/AddGroup/index";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
@@ -34,6 +35,7 @@ function App() {
             <Route path="/desc" element={<Description />} />
             <Route path="/addScan" element={<AddScans />} />
             <Route path="/riskAssesment" element={<RiskForm />} />
+            <Route path="/addGroup" element={<AddGroup />} />
           </Route>
 
           <Route element={<RequireAuth allowedRoles={["admin", "reviewer"]} />}>

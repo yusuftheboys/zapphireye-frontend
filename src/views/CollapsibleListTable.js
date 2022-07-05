@@ -17,6 +17,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getScan } from "../service/scan";
 import { Button } from "@mui/material";
 
+const exportPDF = () => {};
+
 function UnsafeComponent({ html }) {
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
