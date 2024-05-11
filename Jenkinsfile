@@ -60,7 +60,7 @@ pipeline {
             }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh '/usr/share/dependency-check/bin/dependency-check.sh --scan . --project "NodeJS Goof" --format ALL'
+                    sh '/usr/share/dependency-check/bin/dependency-check.sh --scan . --project "zapphireye-frontend" --format ALL'
                 }
                 archiveArtifacts artifacts: 'dependency-check-report.html'
                 archiveArtifacts artifacts: 'dependency-check-report.json'
@@ -90,7 +90,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker build -t nodejsgoof:0.1 .'
+                sh 'docker build -t zapphireye-frontend:0.1 .'
             }
         }
 
